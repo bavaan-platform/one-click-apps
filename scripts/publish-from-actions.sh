@@ -87,5 +87,4 @@ git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 echo `date` >> forcebuild.date
 git add -A 
 git commit -m 'Deploy to GitHub Pages'
-echo  "$REMOTE_REPO $REMOTE_BRANCH:$REMOTE_BRANCH"
 git push $REMOTE_REPO $REMOTE_BRANCH:$REMOTE_BRANCH 
