@@ -43,6 +43,7 @@ echo "#############################################"
 echo "######### Setting env vars" 
 echo "#############################################" 
 
+REMOTE_REPO_CLONE="https://github.com/${GITHUB_REPOSITORY}.git"
 REMOTE_REPO="https://${GITHUB_PERSONAL_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 REPONAME="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 2)"
 
@@ -60,7 +61,7 @@ echo "#############################################"
 
 
 cp -r $BUILD_DIR $SOURCE_DIRECTORY_DEPLOY_GH/
-git clone --single-branch --branch=$REMOTE_BRANCH $REMOTE_REPO $CLONED_DIRECTORY_DEPLOY_GH
+git clone --single-branch --branch=$REMOTE_BRANCH $REMOTE_REPO_CLONE $CLONED_DIRECTORY_DEPLOY_GH
 sleep 1s
 echo "#############################################" 
 echo "######### Removing old files" 
