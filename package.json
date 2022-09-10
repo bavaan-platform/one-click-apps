@@ -1,6 +1,6 @@
 {
   "name": "bavaan-one-click-apps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "One Click App Repository for Bavaan Cloud",
   "scripts": {
     "formatter": "prettier --check \"./public/**/*.(json|yml)\"",
