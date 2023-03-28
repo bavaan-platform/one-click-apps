@@ -24,8 +24,8 @@ caproverOneClickApp:
           description: Elasticsearch Port
           defaultValue: '9200'
     instructions:
-        start: "Apache Unomi™: The Open Source Customer Data Platform (CDP)"
+        start: 'Apache Unomi™: The Open Source Customer Data Platform (CDP)'
         end: Apache Unomi is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
     isOfficial: true
-    description: "Apache Unomi™: The Open Source Customer Data Platform (CDP)"
+    description: 'Apache Unomi™: The Open Source Customer Data Platform (CDP)'
     documentation: https://hub.docker.com/_/apache/unomi?tab=description
