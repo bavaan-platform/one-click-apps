@@ -1,0 +1,101 @@
+captainVersion: 4
+networks:
+    search:
+        driver: bridge
+services:
+    $$cap_appname:
+        image: jahia/jahia-ee:$$cap_jahia_version
+        restart: always
+        environment:
+            DBMS_TYPE: mariadb
+            DB_HOST: $$cap_DB_HOST
+            DB_NAME: $$cap_DB_NAME
+            DB_USER: $$cap_DB_USER
+            DB_PASS: $$cap_DB_PASS
+            OPERATING_MODE: development
+            PROCESSING_SERVER: 'true'
+            MAX_RAM_PERCENTAGE: $$cap_MAX_RAM_PERCENTAGE
+            EXECUTE_PROVISIONING_SCRIPT: $$cap_EXECUTE_PROVISIONING_SCRIPT
+        caproverExtra:
+            containerHttpPort: 8080
+    $$cap_appname-jcustomer:
+        image: jahia/jcustomer:$$cap_jcustomer_version
+        restart: always
+        environment:
+            UNOMI_ELASTICSEARCH_ADDRESSES: $$cap_ELASTICSEARCH_HOST:$$cap_ELASTICSEARCH_PORT
+            UNOMI_ELASTICSEARCH_CLUSTERNAME: $$cap_ELASTICSEARCH_CLUSTER_NAME
+            UNOMI_CLUSTER_PUBLIC_ADDRESS: http://srv-captain--$$cap_appname-jcustomer:8181
+            UNOMI_CLUSTER_INTERNAL_ADDRESS: https://srv-captain--$$cap_appname-jcustomer:9443
+            #UNOMI_THIRDPARTY_PROVIDER1_IPADDRESSES=172.16.1.30
+            UNOMI_THIRDPARTY_PROVIDER1_ALLOWEDEVENTS: login,updateProperties
+            JAVA_MAX_MEM: 2G
+            UNOMI_ROOT_PASSWORD: karaf
+            UNOMI_HAZELCAST_TCPIP_MEMBERS: srv-captain--$$cap_appname-jcustomer
+            JCUSTOMER_MAXMIND_GEOIP2_CITY_DATABASE_URL: ${JCUSTOMER_MAXMIND_GEOIP2_CITY_DATABASE_URL}
+        caproverExtra:
+            containerHttpPort: 8181
+caproverOneClickApp:
+    variables:
+        - id: $$cap_jahia_version
+          label: Jahia Version
+          defaultValue: '8.1'
+          description: Check out their docker page for the valid tags https://hub.docker.com/_/jahia/jahia-ee?tab=tags
+          validRegex: /^([^\s^\/])+$/
+        - id: $$cap_jcustomer_version
+          label: Jahia Customer Version
+          defaultValue: '1.6.1'
+          description: Check out their docker page for the valid tags https://hub.docker.com/_/jahia/jahia/jcustomer?tab=tags
+          validRegex: /^([^\s^\/])+$/
+        - id: $$cap_DB_HOST
+          label: Mysql DB Host
+          description: Mysql DB Host
+          defaultValue: 'mysql'
+        - id: $$cap_DB_PORT
+          label: Mysql DB Port
+          description: Mysql DB Port
+          defaultValue: '3306'
+        - id: $$cap_DB_NAME
+          label: Mysql DB Name
+          description: Mysql DB name
+          defaultValue: 'jahia'
+        - id: $$cap_DB_USER
+          label: Mysql DB User
+          description: Mysql DB User
+          defaultValue: 'jahia'
+        - id: $$cap_DB_PASS
+          label: Mysql DB Password
+          description: Mysql DB Password
+          defaultValue: 'jahia'
+
+        - id: $$cap_ELASTICSEARCH_HOST
+          label: Elasticsearch Host
+          description: Elasticsearch Host
+          defaultValue: 'elasticsearch'
+        - id: $$cap_ELASTICSEARCH_PORT
+          label: Elasticsearch Port
+          description: Elasticsearch Port
+          defaultValue: '9200'
+        - id: $$cap_ELASTICSEARCH_CLUSTER_NAME
+          label: Elasticsearch Cluster Name
+          description: Elasticsearch Cluster Name
+          defaultValue: 'jahia-es-cluster'
+        
+        - id: $$cap_MAXMIND_KEY
+          label: MAXMIND Key
+          description: MAXMIND Key
+          defaultValue: ''
+        - id: $$cap_EXECUTE_PROVISIONING_SCRIPT
+          label: EXECUTE PROVISIONING SCRIPT
+          description: EXECUTE PROVISIONING SCRIPT
+          defaultValue: 'https://raw.githubusercontent.com/bavaan-platform/one-click-apps/master/public/v4/apps/jahia/jexperience/provisioning.yaml'
+        - id: $$cap_MAX_RAM_PERCENTAGE
+          label: MAX RAM PERCENTAGE
+          description: MAX RAM PERCENTAGE
+          defaultValue: '50'
+
+    instructions:
+        start: 'Jahia™: The Open Source Customer Data Platform (CDP)'
+        end: Jahia is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
+    isOfficial: true
+    description: 'Jahia™: The Open Source Customer Data Platform (CDP)'
+    documentation: https://hub.docker.com/_/jahia/jahia-ee?tab=description
