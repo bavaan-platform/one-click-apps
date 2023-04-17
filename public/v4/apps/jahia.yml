@@ -87,7 +87,7 @@ caproverOneClickApp:
         - id: $$cap_EXECUTE_PROVISIONING_SCRIPT
           label: EXECUTE PROVISIONING SCRIPT
           description: EXECUTE PROVISIONING SCRIPT
-          defaultValue: 'https://raw.githubusercontent.com/bavaan-platform/one-click-apps/master/public/v4/apps/jahia/jexperience/provisioning.yaml'
+          defaultValue: 'https://raw.githubusercontent.com/bavaan-platform/one-click-apps/master/templates/jahia/jexperience/provisioning.yaml'
         - id: $$cap_MAX_RAM_PERCENTAGE
           label: MAX RAM PERCENTAGE
           description: MAX RAM PERCENTAGE
