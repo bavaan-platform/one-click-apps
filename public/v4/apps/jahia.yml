@@ -79,7 +79,7 @@ caproverOneClickApp:
           label: Elasticsearch Cluster Name
           description: Elasticsearch Cluster Name
           defaultValue: 'jahia-es-cluster'
-        
+
         - id: $$cap_MAXMIND_KEY
           label: MAXMIND Key
           description: MAXMIND Key
