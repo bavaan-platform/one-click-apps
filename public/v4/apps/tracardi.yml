@@ -33,9 +33,13 @@ services:
     $$cap_appname-redis:
         image: redis:6.2
         restart: always
+        caproverExtra:
+            notExposeAsWebApp: 'true'
     $$cap_appname-worker:
         image: tracardi/update-worker:$$cap_tracardi_version
         restart: always
+        caproverExtra:
+            notExposeAsWebApp: 'true'
         environment:
           REDIS_HOST: redis://srv-captain--$$cap_appname-redis:6379
 caproverOneClickApp:
@@ -65,11 +69,11 @@ caproverOneClickApp:
         - id: $$cap_API_URL
           label: Api Url
           description: Api Url
-          defaultValue: https://$$cap_appname_api.$$cap_root_domain
+          defaultValue: http://localhost:8686
 
     instructions:
         start: 'Tracardi: The Open Source Customer Data Platform (CDP)'
-        end: Tracardi is deployed and the dashboard is available from http://$$cap_tracardi-gui.$$cap_root_domain.
+        end: Tracardi is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
     isOfficial: true
     description: 'Tracardi: The Open Source Customer Data Platform (CDP)'
     documentation: https://hub.docker.com/_/tracardi/tracardi-api
