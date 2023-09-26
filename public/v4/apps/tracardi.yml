@@ -10,18 +10,18 @@ services:
             API_URL: $$cap_API_URL
         caproverExtra:
             containerHttpPort: 80
-    $$cap_appname_api:
+    $$cap_appname-api:
         image: tracardi/tracardi-api:$$cap_tracardi_version
         restart: always
         environment:
-            ELASTIC_HOST: http://srv-captain--$$cap_appname_elasticsearch:9200
-            REDIS_HOST: redis://srv-captain--$$cap_appname_redis:6379
+            ELASTIC_HOST: http://srv-captain--$$cap_appname-elasticsearch:9200
+            REDIS_HOST: redis://srv-captain--$$cap_appname-redis:6379
             LOGGING_LEVEL: $$cap_LOGGING_LEVEL
             DEMO: $$cap_DEMO
             PRODUCTION: $$cap_PRODUCTION
         caproverExtra:
             containerHttpPort: 80
-    $$cap_appname_elasticsearch:
+    $$cap_appname-elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:$$cap_elasticsearch_version
         restart: always
         environment:
@@ -30,14 +30,14 @@ services:
             discovery.type: single-node
             xpack.security.enabled: "false"
             cluster.name: contextElasticSearch
-    $$cap_appname_redis:
+    $$cap_appname-redis:
         image: redis
         restart: always
-    $$cap_appname_worker:
+    $$cap_appname-worker:
         image: tracardi/update-worker:$$cap_tracardi_version
         restart: always
         environment:
-          REDIS_HOST: redis://srv-captain--$$cap_appname_redis:6379
+          REDIS_HOST: redis://srv-captain--$$cap_appname-redis:6379
 caproverOneClickApp:
     variables:
         - id: $$cap_tracardi_version
