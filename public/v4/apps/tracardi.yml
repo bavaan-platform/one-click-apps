@@ -3,27 +3,27 @@ networks:
     search:
         driver: bridge
 services:
-    $$cap_tracardi-api:
+    $$cap_appname_api:
         image: tracardi/tracardi-api:$$cap_tracardi_version
         restart: always
         environment:
-            ELASTIC_HOST: http://srv-captain--$$cap_tracardi-elasticsearch:9200
-            REDIS_HOST: redis://srv-captain--$$cap_tracardi-redis:6379
+            ELASTIC_HOST: http://srv-captain--$$cap_appname_elasticsearch:9200
+            REDIS_HOST: redis://srv-captain--$$cap_appname_redis:6379
             LOGGING_LEVEL: $$cap_LOGGING_LEVEL
             DEMO: $$cap_DEMO
             PRODUCTION: $$cap_PRODUCTION
         caproverExtra:
             containerHttpPort: 80
-    $$cap_tracardi-gui:
+    $$cap_appname_gui:
         image: tracardi/tracardi-gui:$$cap_tracardi_version
         restart: always
         depends_on:
-          - $$cap_tracardi-api
+          - $$cap_appname_api
         environment:
             API_URL: $$cap_API_URL
         caproverExtra:
             containerHttpPort: 80
-    $$cap_tracardi-elasticsearch:
+    $$cap_appname_elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:$$cap_elasticsearch_version
         restart: always
         environment:
@@ -32,14 +32,14 @@ services:
             discovery.type: single-node
             xpack.security.enabled: "false"
             cluster.name: contextElasticSearch
-    $$cap_tracardi-redis:
+    $$cap_appname_redis:
         image: redis
         restart: always
-    $$cap_tracardi-worker:
+    $$cap_appname_worker:
         image: tracardi/update-worker:$$cap_tracardi_version
         restart: always
         environment:
-          REDIS_HOST: redis://srv-captain--$$cap_tracardi-redis:6379
+          REDIS_HOST: redis://srv-captain--$$cap_appname_redis:6379
 caproverOneClickApp:
     variables:
         - id: $$cap_tracardi_version
@@ -67,7 +67,7 @@ caproverOneClickApp:
         - id: $$cap_API_URL
           label: Api Url
           description: Api Url
-          defaultValue: http://$$cap_tracardi-api.$$cap_root_domain
+          defaultValue: https://$$cap_appname_api.$$cap_root_domain
 
     instructions:
         start: 'Tracardi: The Open Source Customer Data Platform (CDP)'
