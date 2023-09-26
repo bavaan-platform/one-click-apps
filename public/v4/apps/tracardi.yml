@@ -31,7 +31,7 @@ services:
             xpack.security.enabled: "false"
             cluster.name: contextElasticSearch
     $$cap_appname-redis:
-        image: redis
+        image: redis:6.2
         restart: always
     $$cap_appname-worker:
         image: tracardi/update-worker:$$cap_tracardi_version
