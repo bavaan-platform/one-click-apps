@@ -3,6 +3,13 @@ networks:
     search:
         driver: bridge
 services:
+    $$cap_appname:
+        image: tracardi/tracardi-gui:$$cap_tracardi_version
+        restart: always
+        environment:
+            API_URL: $$cap_API_URL
+        caproverExtra:
+            containerHttpPort: 80
     $$cap_appname_api:
         image: tracardi/tracardi-api:$$cap_tracardi_version
         restart: always
@@ -12,15 +19,6 @@ services:
             LOGGING_LEVEL: $$cap_LOGGING_LEVEL
             DEMO: $$cap_DEMO
             PRODUCTION: $$cap_PRODUCTION
-        caproverExtra:
-            containerHttpPort: 80
-    $$cap_appname_gui:
-        image: tracardi/tracardi-gui:$$cap_tracardi_version
-        restart: always
-        depends_on:
-          - $$cap_appname_api
-        environment:
-            API_URL: $$cap_API_URL
         caproverExtra:
             containerHttpPort: 80
     $$cap_appname_elasticsearch:
