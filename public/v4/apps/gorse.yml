@@ -10,9 +10,8 @@ services:
         dockerfileLines:
             - FROM zhenghaoz/gorse-in-one:$$cap_gorse_version
             - RUN touch /etc/gorse/config.toml
+            - CMD -c /etc/gorse/config.toml --log-path /var/log/gorse/master.log --cache-path /var/lib/gorse/master_cache.data --playground
         restart: always
-        command:
-            - "--playground"
         caproverExtra:
             containerHttpPort: 8088
 caproverOneClickApp:
