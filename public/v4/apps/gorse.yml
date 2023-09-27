@@ -11,8 +11,7 @@ services:
         caproverExtra:
             dockerfileLines:
                 - FROM zhenghaoz/gorse-in-one:$$cap_gorse_version
-                #- RUN touch /etc/gorse/config.toml
-                #- CMD ["--log-path","/var/log/gorse/master.log","--cache-path","/var/lib/gorse/master_cache.data","--playground"]
+                - CMD ["--log-path","/var/log/gorse/master.log","--cache-path","/var/lib/gorse/master_cache.data","--playground"]
             containerHttpPort: 8088
 caproverOneClickApp:
     variables:
