@@ -1,0 +1,66 @@
+captainVersion: 4
+networks:
+    search:
+        driver: bridge
+services:
+    $$cap_appname-db:
+        image: postgres:$$cap_postgres_version
+        volumes:
+            - $$cap_appname-db-data:/var/lib/postgresql/data
+        restart: always
+        environment:
+            POSTGRES_USER: kestra
+            POSTGRES_PASSWORD: $$cap_postgres_password
+            POSTGRES_DB: postgres
+        caproverExtra:
+            notExposeAsWebApp: 'true'
+    $$cap_appname:
+        image: kestra/kestra:$$cap_kestra_version
+        restart: always
+        environment:
+            KESTRA_CONFIGURATION: |
+              datasources:
+                postgres:
+                  url: jdbc:postgresql://postgres:5432/kestra
+                  driverClassName: org.postgresql.Driver
+                  username: kestra
+                  password: $$cap_postgres_password
+              kestra:
+                server:
+                  basic-auth:
+                    enabled: false
+                    username: admin
+                    password: kestra
+                repository:
+                  type: postgres
+                storage:
+                  type: local
+                  local:
+                    base-path: "/app/storage"
+                queue:
+                  type: postgres
+                tasks:
+                  tmp-dir:
+                    path: /tmp/kestra-wd/tmp
+                url: http://$$cap_appname.$$cap_root_domain
+        caproverExtra:
+            containerHttpPort: 8080
+caproverOneClickApp:
+    variables:
+        - id: $$cap_kestra_version
+          label: Kestra Version
+          defaultValue: '0.8.1-rc3'
+          description: Check out their docker page for the valid tags https://hub.docker.com/r/kestra/kestra/tags
+          validRegex: /^([^\s^\/])+$/
+        - id: $$cap_postgres_version
+          label: Postgres Version
+          defaultValue: 'latest'
+          description: Check out their docker page for the valid tags https://hub.docker.com/_/postgres/tags
+          validRegex: /^([^\s^\/])+$/
+
+    instructions:
+        start: 'Kestra, Open Source Declarative Data Orchestration'
+        end: Kestra is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
+    isOfficial: true
+    description: 'Kestra, Open Source Declarative Data Orchestration'
+    documentation: https://hub.docker.com/r/kestra/kestra
