@@ -1,0 +1,49 @@
+captainVersion: 4
+networks:
+    search:
+        driver: bridge
+services:
+    $$cap_appname:
+        image: wodby/varnish:$$cap_varnish_version
+        environment:
+            VARNISH_SECRET: $$cap_VARNISH_SECRET
+            VARNISH_BACKEND_HOST: $$cap_VARNISH_BACKEND_HOST
+            VARNISH_BACKEND_PORT: $$cap_VARNISH_BACKEND_PORT
+            VARNISH_CONFIG_PRESET: $$cap_VARNISH_CONFIG_PRESET
+            VARNISH_ALLOW_UNRESTRICTED_PURGE: $$cap_VARNISH_ALLOW_UNRESTRICTED_PURGE
+        restart: always
+        caproverExtra:
+            containerHttpPort: 6082
+caproverOneClickApp:
+    variables:
+        - id: $$cap_varnish_version
+          label: Varnish Version
+          defaultValue: '6'
+          description: Check out their docker page for the valid tags https://hub.docker.com/r/wodby/varnish/tags
+          validRegex: /^([^\s^\/])+$/
+        - id: $$cap_VARNISH_SECRET
+          label: Varnish Secret
+          description: Varnish Secret
+          defaultValue: 'secret'
+        - id: $$cap_VARNISH_BACKEND_HOST
+          label: Varnish Backend Host
+          description: Varnish Backend Host
+          defaultValue: 'nginx'
+        - id: $$cap_VARNISH_BACKEND_PORT
+          label: Varnish Backend Port
+          description: Varnish Backend Port
+          defaultValue: '80'
+        - id: $$cap_VARNISH_CONFIG_PRESET
+          label: Varnish Config Preset
+          description: Varnish Config Preset
+          defaultValue: 'wordpress'
+        - id: $$cap_VARNISH_ALLOW_UNRESTRICTED_PURGE
+          label: Varnish Allow Unrestricted Purge
+          description: Varnish Allow Unrestricted Purge
+          defaultValue: '1'
+    instructions:
+        start: 'Varnish Cache is a web application accelerator also known as a caching HTTP reverse proxy'
+        end: Gorse is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
+    isOfficial: true
+    description: 'Varnish Cache is a web application accelerator also known as a caching HTTP reverse proxy'
+    documentation: https://github.com/wodby/varnish
