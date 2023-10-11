@@ -4,7 +4,7 @@ networks:
         driver: bridge
 services:
     $$cap_appname:
-        image: wodby/varnish:$$cap_varnish_version
+        image: bavaan/varnish:$$cap_varnish_version
         environment:
             VARNISH_SECRET: $$cap_VARNISH_SECRET
             VARNISH_BACKEND_HOST: $$cap_VARNISH_BACKEND_HOST
@@ -19,7 +19,7 @@ caproverOneClickApp:
         - id: $$cap_varnish_version
           label: Varnish Version
           defaultValue: '6'
-          description: Check out their docker page for the valid tags https://hub.docker.com/r/wodby/varnish/tags
+          description: Check out their docker page for the valid tags https://hub.docker.com/r/bavaan/varnish/tags
           validRegex: /^([^\s^\/])+$/
         - id: $$cap_VARNISH_SECRET
           label: Varnish Secret
@@ -46,4 +46,4 @@ caproverOneClickApp:
         end: Gorse is deployed and the dashboard is available from http://$$cap_appname.$$cap_root_domain.
     isOfficial: true
     description: 'Varnish Cache is a web application accelerator also known as a caching HTTP reverse proxy'
-    documentation: https://github.com/wodby/varnish
+    documentation: https://github.com/bavaan/varnish
