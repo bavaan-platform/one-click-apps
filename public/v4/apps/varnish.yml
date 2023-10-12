@@ -13,7 +13,7 @@ services:
             VARNISH_ALLOW_UNRESTRICTED_PURGE: $$cap_VARNISH_ALLOW_UNRESTRICTED_PURGE
         restart: always
         caproverExtra:
-            containerHttpPort: 6082
+            containerHttpPort: 6081
 caproverOneClickApp:
     variables:
         - id: $$cap_varnish_version
