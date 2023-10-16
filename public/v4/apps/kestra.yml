@@ -17,13 +17,18 @@ services:
     $$cap_appname:
         image: kestra/kestra:$$cap_kestra_version
         volumes:
-            - $$cap_appname-data:/app/storage
+          - $$cap_appname-data:/app/storage
+          - /var/run/docker.sock:/var/run/docker.sock
+        entrypoint: /bin/bash
+        command:
+          - -c
+          - /app/kestra server standalone --worker-thread=128
         restart: always
         environment:
             KESTRA_CONFIGURATION: |
               datasources:
                 postgres:
-                  url: jdbc:postgresql://$$cap_appname-db:5432/$$cap_postgres_database_name
+                  url: jdbc:postgresql://srv-captain--$$cap_appname-db:5432/$$cap_postgres_database_name
                   driverClassName: org.postgresql.Driver
                   username: $$cap_postgres_user
                   password: $$cap_postgres_password
@@ -44,7 +49,7 @@ services:
                 tasks:
                   tmp-dir:
                     path: /tmp/kestra-wd/tmp
-                url: http://$$cap_appname.$$cap_root_domain
+                url: http://localhost:8080/
         caproverExtra:
             containerHttpPort: 8080
 caproverOneClickApp:
