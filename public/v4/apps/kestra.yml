@@ -9,21 +9,23 @@ services:
             - $$cap_appname-db-data:/var/lib/postgresql/data
         restart: always
         environment:
-            POSTGRES_USER: kestra
+            POSTGRES_USER: $$cap_postgres_user
             POSTGRES_PASSWORD: $$cap_postgres_password
-            POSTGRES_DB: postgres
+            POSTGRES_DB: $$cap_postgres_database_name
         caproverExtra:
             notExposeAsWebApp: 'true'
     $$cap_appname:
         image: kestra/kestra:$$cap_kestra_version
+        volumes:
+            - $$cap_appname-data:/app/storage
         restart: always
         environment:
             KESTRA_CONFIGURATION: |
               datasources:
                 postgres:
-                  url: jdbc:postgresql://postgres:5432/kestra
+                  url: jdbc:postgresql://$$cap_appname-db:5432/$$cap_postgres_database_name
                   driverClassName: org.postgresql.Driver
-                  username: kestra
+                  username: $$cap_postgres_user
                   password: $$cap_postgres_password
               kestra:
                 server:
@@ -49,14 +51,24 @@ caproverOneClickApp:
     variables:
         - id: $$cap_kestra_version
           label: Kestra Version
-          defaultValue: '0.8.1-rc3'
+          defaultValue: 'latest-full'
           description: Check out their docker page for the valid tags https://hub.docker.com/r/kestra/kestra/tags
           validRegex: /^([^\s^\/])+$/
         - id: $$cap_postgres_version
           label: Postgres Version
-          defaultValue: 'latest'
+          defaultValue: '15'
           description: Check out their docker page for the valid tags https://hub.docker.com/_/postgres/tags
           validRegex: /^([^\s^\/])+$/
+        - id: $$cap_postgres_user
+          label: Postgres User
+          defaultValue: 'kestra'
+        - id: $$cap_postgres_password
+          label: Postgres Password
+          defaultValue: 'kestra@123'
+        - id: $$cap_postgres_database_name
+          label: Postgres Database Name
+          defaultValue: 'kestra'
+        
 
     instructions:
         start: 'Kestra, Open Source Declarative Data Orchestration'
