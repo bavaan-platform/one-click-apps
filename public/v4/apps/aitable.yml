@@ -9,7 +9,7 @@ services:
             - $$cap_appname-aitable-data:/apitable
         restart: always
         caproverExtra:
-            containerHttpPort: 8080
+            containerHttpPort: 80
 caproverOneClickApp:
     variables:
         - id: $$cap_aitable_version
